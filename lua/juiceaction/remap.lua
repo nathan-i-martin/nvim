@@ -1,8 +1,14 @@
 vim.g.mapleader = " "
 
 -- Inserting tabs
-vim.keymap.set("v", "<Tab>", ">gv")
-vim.keymap.set("v", "<S-Tab>", "<gv")
+vim.keymap.set("i", "<Tab>", "<ESC>v>gv<ESC>llllli", { noremap = true, silent = true })
+vim.keymap.set("i", "<S-Tab>", "<ESC>v<gv<ESC>hhhi", { noremap = true, silent = true })
+vim.keymap.set("n", "<Tab>", "<ESC>v>gv<ESC>llllli", { noremap = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", "<ESC>v<gv<ESC>hhhi", { noremap = true, silent = true })
+-- Pullup auto-docs on hovered item
+vim.keymap.set("n", "<Tab>", function()
+    vim.lsp.buf.hover({ focusable = false })
+end, { noremap = true, silent = true })
 
 -- Adds <ALT> - Moving lines.
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==") -- Move line down in Normal mode
@@ -17,10 +23,10 @@ vim.keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv") -- Move selection up in Visual
 
 -- Adds line jumping by quantities of n
 local lineMoveQuantity = tostring(10)
+vim.keymap.set("n", "<C-Up>", lineMoveQuantity .. "k")
 vim.keymap.set("n", "<C-j>", lineMoveQuantity .. "j")
 vim.keymap.set("n", "<C-k>", lineMoveQuantity .. "k")
 vim.keymap.set("n", "<C-Down>", lineMoveQuantity .. "j")
-vim.keymap.set("n", "<C-Up>", lineMoveQuantity .. "k")
 
 -- Returns to file directory
 vim.keymap.set("n", "<leader>d", vim.cmd.Ex)
@@ -28,7 +34,44 @@ vim.keymap.set("n", "<leader>d", vim.cmd.Ex)
 -- Telescope key bindings
 local telescope = require("telescope.builtin")
 vim.keymap.set("n","<C-p>", telescope.find_files, {})
-vim.keymap.set("n","<leader>fg", telescope.live_grep, {})
+vim.keymap.set("n","<C-f>", telescope.live_grep, {})
 
 -- Git
 vim.keymap.set("n","<leader>gs", vim.cmd.Git)
+
+-- Delete whole words
+vim.keymap.set("i", "<C-h>", "<C-w>", { noremap = true })
+vim.keymap.set("i", "<C-Del>", "<Right><Esc>vwh<Del><Esc>i", { noremap = true }) -- Very specifically adds CTRL+Delete behaviour as many platforms handle it
+
+-- Add CTRL mappings instead of forcing w or b
+vim.keymap.set("n", "<C-h>", "b", { noremap = true, silent = true }) -- Ctrl+H moves left by a word
+vim.keymap.set("n", "<C-l>", "w", { noremap = true, silent = true }) -- Ctrl+L moves right by a word
+
+-- Harpoon
+local harpoon = require("harpoon")
+vim.keymap.set("n", "<leader>a", function()
+    if vim.bo.buftype ~= "terminal" then
+        harpoon:list():add() -- Add file only if not in a terminal buffer
+    end
+end, { noremap = true, silent = true })
+
+vim.keymap.set("n", "<C-1>", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<C-2>", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<C-3>", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<C-4>", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<C-5>", function() harpoon:list():select(5) end)
+vim.keymap.set("n", "<C-6>", function() harpoon:list():select(6) end)
+vim.keymap.set("n", "<C-7>", function() harpoon:list():select(7) end)
+vim.keymap.set("n", "<C-8>", function() harpoon:list():select(8) end)
+vim.keymap.set("n", "<C-9>", function() harpoon:list():select(9) end)
+vim.keymap.set("n", "<C-0>", function() harpoon:list():select(0) end)
+
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+
+-- Toggle Terminal
+vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<CR>", { noremap = true, silent = true })
+vim.keymap.set("t", "<Esc>", "<C-c><CR>exit<CR>", { noremap = true, silent = true }) -- Totally shuts down the terminal instance
