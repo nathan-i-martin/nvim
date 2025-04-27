@@ -59,6 +59,6 @@ return {
         end
 
         -- Keybindings
-        vim.keymap.set("n", "<C-a>", function() toggle_telescope(harpoon:list()) end, { desc = "Open Harpoon in Telescope" })
+        vim.keymap.set("n", "<A-a>", function() toggle_telescope(harpoon:list()) end, { desc = "Open Harpoon in Telescope" })
     end,
 }
