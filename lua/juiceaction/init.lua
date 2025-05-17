@@ -13,7 +13,10 @@ vim.api.nvim_create_autocmd("BufEnter", { -- automatically calculate width of li
     end,
 })
 vim.opt.relativenumber = true -- (Optional) Enables relative numbering
-vim.opt.number = true        -- Show absolute line numbers
+vim.opt.number = true -- Show absolute line numbers
+
+vim.opt.cursorline = true
+-- vim.api.nvim_set_hl(0, "CursorLine", { bg = "#444400" }) -- Dark yellow background
 
 -- When "nvim" is called, nobody cares about the home screen automatically just run "nvim ."
 local args = vim.fn.argv()

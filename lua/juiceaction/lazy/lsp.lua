@@ -36,7 +36,11 @@ return {
             handlers = {
                 function(server_name) -- default handler (optional)
                     require("lspconfig")[server_name].setup {
-                        capabilities = capabilities
+                        capabilities = capabilities,
+                        handlers = {
+                            ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+                            ["textDocument/codeAction"] = vim.lsp.with(vim.lsp.handlers.code_action, { border = "rounded" })
+                        }
                     }
                 end,
             }
@@ -70,7 +74,7 @@ return {
         })
 
         vim.diagnostic.config({
-            -- update_in_insert = true,
+            update_in_insert = true,
             float = {
                 focusable = true,
                 style = "minimal",
