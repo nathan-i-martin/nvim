@@ -1,7 +1,9 @@
 vim.opt.expandtab = true
+vim.opt.wrap = false
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
+vim.opt.showtabline = 4
 vim.g.mapleader = " "
 vim.opt.signcolumn = "yes:2"
 vim.api.nvim_create_autocmd("BufEnter", { -- automatically calculate width of line number column based on highest number
@@ -30,7 +32,6 @@ require("juiceaction.lazy_init")
 
 
 require("mason").setup()
-
 
 
 require("juiceaction.remap")
